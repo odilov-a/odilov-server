@@ -9,6 +9,7 @@ const vacancyRoutes = require("./routes/vacancyRoutes");
 const portfolioRoutes = require("./routes/portfolioRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const createRoutes = require("./routes/createRoutes");
+const aboutRoutes = require("./routes/aboutRoutes");
 const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
@@ -39,6 +40,7 @@ mongoose
     console.log("Connected to MongoDB");
     app.use("/", adminRoutes);
     app.use("/api/auth", authRoutes);
+    app.use("/api/abouts", aboutRoutes);
     app.use("/api/admins", createRoutes);
     app.use("/api/vacancies", vacancyRoutes);
     app.use("/api/portfolios", portfolioRoutes);
