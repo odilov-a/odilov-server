@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Авторизоваться</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/EtruscanA-01.svg/347px-EtruscanA-01.svg.png" type="image/icon type">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex align-items-center justify-content-center h-100">
+        <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+          <% if (error) { %>
+          <p style="color: red; font-weight: bold">
+            <%= error %>
+          </p>
+          <% } %>
+          <form action="/" method="post">
+            <div class="mb-3">
+              <label for="username" class="form-label font-weight-bold" style="font-weight: bold">Username:</label>
+              <div class="form-outline mb-4">
+                <input type="text" class="form-control" id="username" name="username" required placeholder="Username" />
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label font-weight-bold" id="required" style="font-weight: bold">Password:</label>
+              <div class="input-group">
+                <span class="input-group-text" id="togglePassword">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                  </svg>
+                </span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block font-weight-bold" style="font-weight: bold">
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+<style>
+  .btn-purple {
+    background-color: rgba(102, 9, 102, 0.921) !important;
+    color: white !important;
+  }
+</style>
+<script>
+  const togglePassword = document.querySelector('#togglePassword');
+  const password = document.querySelector('#password'); // Corrected id to match the input field
+  togglePassword.addEventListener('click', function(e) {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    if (togglePassword.src.match("https://media.geeksforgeeks.org/wp-content/uploads/20210917150049/eyeslash.png")) {
+      togglePassword.src = "https://media.geeksforgeeks.org/wp-content/uploads/20210917145551/eye.png";
+    } else {
+      togglePassword.src = "https://media.geeksforgeeks.org/wp-content/uploads/20210917150049/eyeslash.png";
+    }
+  });
+</script>
+
+</html>
