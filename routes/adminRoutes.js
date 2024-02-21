@@ -3,6 +3,7 @@ const router = express.Router();
 const Vacancy = require("../models/Vacancy");
 const Portfolio = require("../models/Portfolio");
 const Admin = require("../models/Admin");
+const About = require("../models/About");
 
 const authenticateUser = async (username, password) => {
   try {
@@ -251,6 +252,110 @@ router.get(
         return res.status(404).send("Vacancy not found");
       }
       return res.redirect("/vacancies");
+    } catch (error) {
+      return res
+        .status(500)
+        .render("error", { error: "Internal Server Error" });
+    }
+  }
+);
+
+// about route codes
+router.get("/abouts", isAuthenticated, async (req, res) => {
+  try {
+    const abouts = await About.find();
+    return res.render("adminAbout", { abouts });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).render("error", { error: "Internal Server Error" });
+  }
+});
+
+router.get("/abouts/:aboutId", isAuthenticated, async (req, res) => {
+  try {
+    const aboutId = req.params.aboutId;
+    const about = await About.findById(aboutId);
+    if (!about) {
+      return res.status(404).json({ error: "About not found" });
+    }
+    return res.json(about);
+  } catch (error) {
+    console.error("Error fetching about details:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/abouts/create", isAuthenticated, async (req, res) => {
+  try {
+    const { newPhoneNumber, newAddress, newInstagram, newTelegram, newLinkedIn, newGithub, newGmail, newPhotoLink, newLevel, newDescriptions } = req.body;
+    if (!newPhoneNumber || !newAddress || !newInstagram || !newTelegram || !newLinkedIn || !newGithub || !newGmail || !newPhotoLink || !newLevel || !newDescriptions) {
+      return res.status(400).send("All fields are required");
+    }
+    const newAbout = new About({
+      phoneNumber: newPhoneNumber,
+      address: newAddress,
+      instagram: newInstagram,
+      telegram: newTelegram,
+      linkedIn: newLinkedIn,
+      github: newGithub,
+      gmail: newGmail,
+      photoLink: newPhotoLink,
+      level: newLevel,
+      descriptions: newDescriptions
+    });
+    await newAbout.save();
+    return res.redirect("/abouts");
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+router.post(
+  "/abouts/update/:aboutId",
+  isAuthenticated,
+  async (req, res) => {
+    try {
+      const aboutId = req.params.aboutId;
+      const { updatedPhoneNumber, updatedAddress, updatedInstagram, updatedTelegram, updatedLinkedIn, updatedGithub, updatedGmail, updatedPhotoLink, updatedLevel, updatedDescriptions } = req.body;
+      if (!updatedPhoneNumber || !updatedAddress || !updatedInstagram || !updatedTelegram || !updatedLinkedIn || !updatedGithub || !updatedGmail || !updatedPhotoLink || !updatedLevel || !updatedDescriptions ) {
+        return res.status(400).send("All fields are required");
+      }
+      const about = await About.findById(aboutId);
+      if (!about) {
+        return res.status(404).send("About not found");
+      }
+      about.phoneNumber = updatedPhoneNumber;
+      about.address = updatedAddress;
+      about.instagram = updatedInstagram;
+      about.telegram = updatedTelegram;
+      about.linkedIn = updatedLinkedIn;
+      about.github = updatedGithub;
+      about.gmail = updatedGmail;
+      about.photoLink = updatedPhotoLink;
+      about.level = updatedLevel;
+      about.descriptions = updatedDescriptions;
+      await about.save();
+      return res.redirect("/abouts");
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .render("error", { error: "Internal Server Error" });
+    }
+  }
+);
+
+router.get(
+  "/abouts/delete/:aboutId",
+  isAuthenticated,
+  async (req, res) => {
+    try {
+      const aboutId = req.params.aboutId;
+      const deletedAbout = await About.findByIdAndDelete(aboutId);
+      if (!deletedAbout) {
+        return res.status(404).send("About not found");
+      }
+      return res.redirect("/abouts");
     } catch (error) {
       return res
         .status(500)

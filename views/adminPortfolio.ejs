@@ -56,12 +56,12 @@
           <label for="newGithub" class="form-label" style="font-weight: bold" id="required">GitHub URL:</label>
           <input type="text" class="form-control" id="newGithub" name="newGithub" placeholder="GitHub URL" />
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <label for="newDescription" class="form-label" style="font-weight: bold">About the project:</label>
           <textarea class="form-control" id="newDescription" name="newDescription" placeholder="About the project"></textarea>
         </div>
-        <div class="d-grid gap-2 col-5 mx-auto">
-          <button type="submit" class="btn btn-primary" style="font-weight: bold">
+        <div class="d-grid gap-2 col-md-6 mx-auto mt-3">
+          <button type="submit" class="btn btn-primary" style="font-weight: bold; width: 100%;">
             <svg xmlns="http://www.w3.org/2000/svg" height="19" width="19" style="fill: white;" viewBox="0 0 448 512">
               <path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM337 209L209 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L303 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z" />
             </svg>
@@ -173,7 +173,7 @@
                 </div>
                 <div class="col-md-6">
                   <label for="updatedGithub" class="form-label" style="font-weight: bold" id="required">Update GitHub URL:</label>
-                  <input type="text" class="form-control" id="updatedGithub" name="updatedGithub" placeholder="Update GitHub URL" value="<%= portfolio.github %>" required/>
+                  <input type="text" class="form-control" id="updatedGithub" name="updatedGithub" placeholder="Update GitHub URL" value="<%= portfolio.github %>" required />
                 </div>
                 <div class="col-md-6">
                   <label for="updatedDescription" class="form-label" style="font-weight: bold">Update the about:</label>

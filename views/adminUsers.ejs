@@ -68,12 +68,12 @@
                 <div class="password-container mb-3">
                   <label for="updatedPassword" class="form-label" style="font-weight: bold" id="required">New password:</label>
                   <div class="input-group">
-                    <span class="input-group-text" id="togglePassword">
+                    <button type="button" class="input-group-text" id="togglePassword">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
                       </svg>
-                    </span>
+                    </button>
                     <input type="password" class="form-control" id="updatedPassword" name="updatedPassword" placeholder="Enter new password" value="<%= user.password %>" required />
                     <button type="button" class="btn btn-secondary" onclick="generatePassword()">Generate password</button>
                   </div>
