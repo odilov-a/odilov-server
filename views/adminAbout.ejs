@@ -80,6 +80,7 @@
         </div>
       </form>
     -->
+
       <div style="margin-left: 10%">
         <% abouts.forEach(about => { %>
         <div class="card" style="width: 90%; margin-top: 20px;">
@@ -88,15 +89,15 @@
           </div>
           <div class="card-body">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Phone number: <%= about.phoneNumber %></li>
+              <li class="list-group-item">Phone number: <a style="text-decoration: none" href="tel:<%= about.phoneNumber %>"><%= about.phoneNumber %></a></li>
               <li class="list-group-item">Home address: <%= about.address %></li>
-              <li class="list-group-item">Instagram username: <%= about.instagram %></li>
-              <li class="list-group-item">Telegram username: <%= about.telegram %></li>
-              <li class="list-group-item">GitHub account: <%= about.github %></li>
-              <li class="list-group-item">Gmail account: <%= about.gmail %></li>
-              <li class="list-group-item">Photo: <%= about.photoLink %></li>
+              <li class="list-group-item">Instagram username: <a style="text-decoration: none" target="_blank" href="<%= about.instagram %>"><%= about.instagram %></a></li>
+              <li class="list-group-item">Telegram username: <a style="text-decoration: none" target="_blank" href="<%= about.telegram %>"><%= about.telegram %></a></li>
+              <li class="list-group-item">GitHub account: <a style="text-decoration: none" target="_blank" href="<%= about.github %>"><%= about.github %></a></li>
+              <li class="list-group-item">Gmail account: <a style="text-decoration: none" href="mailto:<%= about.gmail %>"><%= about.gmail %></a></li>
+              <li class="list-group-item">Photo: <img style="height: 20px; width: 20px;" alt="Akbar Odilov" src="<%= about.photoLink %>" /></li>
               <li class="list-group-item">Level: <%= about.level %></li>
-              <li class="list-group-item">Descriptions: <%= about.descriptions %></li>
+              <li class="list-group-item" style="height: 250px; overflow-y: scroll">Descriptions: <%= about.descriptions %></li>
             </ul>
           </div>
           <div class="card-footer">
