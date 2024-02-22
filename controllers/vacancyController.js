@@ -2,8 +2,19 @@ const Vacancy = require("../models/Vacancy");
 
 exports.getAllVacancies = async (req, res) => {
   try {
-    const vacancies = await Vacancy.find();
-    return res.json(vacancies);
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 10;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const totalVacancies = await Vacancy.countDocuments();
+    const totalPages = Math.ceil(totalVacancies / limit);
+    const vacancies = await Vacancy.find().skip(startIndex).limit(limit);
+    const paginationInfo = {
+      currentPage: page,
+      totalPages: totalPages,
+      totalVacancies: totalVacancies,
+    };
+    return res.json({ vacancies, paginationInfo });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
