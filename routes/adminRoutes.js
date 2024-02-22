@@ -84,7 +84,14 @@ router.post("/portfolios/create", isAuthenticated, async (req, res) => {
       newClient,
       newSecondPhotoLink,
     } = req.body;
-    if (!newTitle || !newPhotoLink || !newLink || !newRole || !newTools ||!newGithub) {
+    if (
+      !newTitle ||
+      !newPhotoLink ||
+      !newLink ||
+      !newRole ||
+      !newTools ||
+      !newGithub
+    ) {
       return res.status(400).send("All inputs are required fields");
     }
     const newPortfolio = new Portfolio({
@@ -123,23 +130,30 @@ router.post(
         updatedClient,
         updatedSecondPhotoLink,
       } = req.body;
-      if (!updatedTitle || !updatedPhotoLink || !updatedLink || !updatedRole || !updatedTools ||!updatedGithub) {
+      if (
+        !updatedTitle ||
+        !updatedPhotoLink ||
+        !updatedLink ||
+        !updatedRole ||
+        !updatedTools ||
+        !updatedGithub
+      ) {
         return res.status(400).send("All inputs are required fields");
       }
       const portfolio = await Portfolio.findById(portfolioId);
       if (!portfolio) {
         return res.status(404).send("Portfolio not found");
       }
-      portfolio.title = updatedTitle,
-      portfolio.github = updatedGithub,
-      portfolio.photoLink = updatedPhotoLink,
-      portfolio.link = updatedLink,
-      portfolio.description = updatedDescription,
-      portfolio.role = updatedRole,
-      portfolio.tools = updatedTools,
-      portfolio.client = updatedClient,
-      portfolio.secondPhotoLink = updatedSecondPhotoLink,
-      await portfolio.save();
+      (portfolio.title = updatedTitle),
+        (portfolio.github = updatedGithub),
+        (portfolio.photoLink = updatedPhotoLink),
+        (portfolio.link = updatedLink),
+        (portfolio.description = updatedDescription),
+        (portfolio.role = updatedRole),
+        (portfolio.tools = updatedTools),
+        (portfolio.client = updatedClient),
+        (portfolio.secondPhotoLink = updatedSecondPhotoLink),
+        await portfolio.save();
       return res.redirect("/portfolios");
     } catch (error) {
       console.error("Error updating portfolio:", error);
@@ -287,8 +301,30 @@ router.get("/abouts/:aboutId", isAuthenticated, async (req, res) => {
 
 router.post("/abouts/create", isAuthenticated, async (req, res) => {
   try {
-    const { newPhoneNumber, newAddress, newInstagram, newTelegram, newLinkedIn, newGithub, newGmail, newPhotoLink, newLevel, newDescriptions } = req.body;
-    if (!newPhoneNumber || !newAddress || !newInstagram || !newTelegram || !newLinkedIn || !newGithub || !newGmail || !newPhotoLink || !newLevel || !newDescriptions) {
+    const {
+      newPhoneNumber,
+      newAddress,
+      newInstagram,
+      newTelegram,
+      newLinkedIn,
+      newGithub,
+      newGmail,
+      newPhotoLink,
+      newLevel,
+      newDescriptions,
+    } = req.body;
+    if (
+      !newPhoneNumber ||
+      !newAddress ||
+      !newInstagram ||
+      !newTelegram ||
+      !newLinkedIn ||
+      !newGithub ||
+      !newGmail ||
+      !newPhotoLink ||
+      !newLevel ||
+      !newDescriptions
+    ) {
       return res.status(400).send("All fields are required");
     }
     const newAbout = new About({
@@ -301,7 +337,7 @@ router.post("/abouts/create", isAuthenticated, async (req, res) => {
       gmail: newGmail,
       photoLink: newPhotoLink,
       level: newLevel,
-      descriptions: newDescriptions
+      descriptions: newDescriptions,
     });
     await newAbout.save();
     return res.redirect("/abouts");
@@ -310,59 +346,69 @@ router.post("/abouts/create", isAuthenticated, async (req, res) => {
   }
 });
 
-router.post(
-  "/abouts/update/:aboutId",
-  isAuthenticated,
-  async (req, res) => {
-    try {
-      const aboutId = req.params.aboutId;
-      const { updatedPhoneNumber, updatedAddress, updatedInstagram, updatedTelegram, updatedLinkedIn, updatedGithub, updatedGmail, updatedPhotoLink, updatedLevel, updatedDescriptions } = req.body;
-      if (!updatedPhoneNumber || !updatedAddress || !updatedInstagram || !updatedTelegram || !updatedLinkedIn || !updatedGithub || !updatedGmail || !updatedPhotoLink || !updatedLevel || !updatedDescriptions ) {
-        return res.status(400).send("All fields are required");
-      }
-      const about = await About.findById(aboutId);
-      if (!about) {
-        return res.status(404).send("About not found");
-      }
-      about.phoneNumber = updatedPhoneNumber;
-      about.address = updatedAddress;
-      about.instagram = updatedInstagram;
-      about.telegram = updatedTelegram;
-      about.linkedIn = updatedLinkedIn;
-      about.github = updatedGithub;
-      about.gmail = updatedGmail;
-      about.photoLink = updatedPhotoLink;
-      about.level = updatedLevel;
-      about.descriptions = updatedDescriptions;
-      await about.save();
-      return res.redirect("/abouts");
-    } catch (error) {
-      console.error(error);
-      return res
-        .status(500)
-        .render("error", { error: "Internal Server Error" });
+router.post("/abouts/update/:aboutId", isAuthenticated, async (req, res) => {
+  try {
+    const aboutId = req.params.aboutId;
+    const {
+      updatedPhoneNumber,
+      updatedAddress,
+      updatedInstagram,
+      updatedTelegram,
+      updatedLinkedIn,
+      updatedGithub,
+      updatedGmail,
+      updatedPhotoLink,
+      updatedLevel,
+      updatedDescriptions,
+    } = req.body;
+    if (
+      !updatedPhoneNumber ||
+      !updatedAddress ||
+      !updatedInstagram ||
+      !updatedTelegram ||
+      !updatedLinkedIn ||
+      !updatedGithub ||
+      !updatedGmail ||
+      !updatedPhotoLink ||
+      !updatedLevel ||
+      !updatedDescriptions
+    ) {
+      return res.status(400).send("All fields are required");
     }
+    const about = await About.findById(aboutId);
+    if (!about) {
+      return res.status(404).send("About not found");
+    }
+    about.phoneNumber = updatedPhoneNumber;
+    about.address = updatedAddress;
+    about.instagram = updatedInstagram;
+    about.telegram = updatedTelegram;
+    about.linkedIn = updatedLinkedIn;
+    about.github = updatedGithub;
+    about.gmail = updatedGmail;
+    about.photoLink = updatedPhotoLink;
+    about.level = updatedLevel;
+    about.descriptions = updatedDescriptions;
+    await about.save();
+    return res.redirect("/abouts");
+  } catch (error) {
+    console.error(error);
+    return res.status(500).render("error", { error: "Internal Server Error" });
   }
-);
+});
 
-router.get(
-  "/abouts/delete/:aboutId",
-  isAuthenticated,
-  async (req, res) => {
-    try {
-      const aboutId = req.params.aboutId;
-      const deletedAbout = await About.findByIdAndDelete(aboutId);
-      if (!deletedAbout) {
-        return res.status(404).send("About not found");
-      }
-      return res.redirect("/abouts");
-    } catch (error) {
-      return res
-        .status(500)
-        .render("error", { error: "Internal Server Error" });
+router.get("/abouts/delete/:aboutId", isAuthenticated, async (req, res) => {
+  try {
+    const aboutId = req.params.aboutId;
+    const deletedAbout = await About.findByIdAndDelete(aboutId);
+    if (!deletedAbout) {
+      return res.status(404).send("About not found");
     }
+    return res.redirect("/abouts");
+  } catch (error) {
+    return res.status(500).render("error", { error: "Internal Server Error" });
   }
-);
+});
 
 router.get("/users", isAuthenticated, async (req, res) => {
   try {
