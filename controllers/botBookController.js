@@ -37,8 +37,8 @@ exports.getBotBookById = async (req, res) => {
 };
 
 const validateBotBookInput = (req, res) => {
-  const { newBookTitle, newBookDescription } = req.body;
-  if (!newBookTitle || !newBookDescription) {
+  const { bookTitle, bookDescription } = req.body;
+  if (!bookTitle || !bookDescription) {
     return res.status(400).json({ message: "All inputs are required fields" });
   }
   return null;
