@@ -11,6 +11,8 @@ const adminRoutes = require("./routes/adminRoutes");
 const createRoutes = require("./routes/createRoutes");
 const aboutRoutes = require("./routes/aboutRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const botBookRoutes = require("./routes/botBookRoutes");
+const botFunctionRoutes = require("./routes/botFunctionRoutes");
 const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
@@ -46,6 +48,8 @@ mongoose
     app.use("/api/admins", createRoutes);
     app.use("/api/vacancies", vacancyRoutes);
     app.use("/api/portfolios", portfolioRoutes);
+    app.use("/api/bot-books", botBookRoutes);
+    app.use("/api/bot-functions", botFunctionRoutes);
 
     const PORT = process.env.PORT || 8080;
     app.listen(PORT, () => {

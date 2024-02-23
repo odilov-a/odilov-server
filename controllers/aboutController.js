@@ -1,11 +1,15 @@
 const About = require("../models/About");
+const handleServerError = (res, error) => {
+  console.error(error);
+  return res.status(500).json({ message: "Internal server error" });
+};
 
 exports.getAllAbouts = async (req, res) => {
   try {
     const abouts = await About.find();
     return res.json(abouts);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
@@ -17,47 +21,65 @@ exports.getAboutById = async (req, res) => {
     }
     return res.json(about);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
+};
+
+const validateAboutInput = (req, res) => {
+  const {
+    newPhoneNumber,
+    newAddress,
+    newInstagram,
+    newTelegram,
+    newLinkedIn,
+    newGithub,
+    newGmail,
+    newPhotoLink,
+    newLevel,
+    newDescriptions,
+  } = req.body;
+  if (
+    !(
+      newPhoneNumber &&
+      newAddress &&
+      newInstagram &&
+      newTelegram &&
+      newLinkedIn &&
+      newGithub &&
+      newGmail &&
+      newPhotoLink &&
+      newLevel &&
+      newDescriptions
+    )
+  ) {
+    return res
+      .status(400)
+      .json({ message: "All inputs are required fields" });
+  }
+  return null;
 };
 
 exports.createAbout = async (req, res) => {
   try {
+    const validationError = validateAboutInput(req, res);
+    if (validationError) return validationError;
     const newAbout = new About({
-      phoneNumber: req.body.phoneNumber,
-      address: req.body.address,
-      instagram: req.body.instagram,
-      telegram: req.body.telegram,
-      linkedIn: req.body.linkedIn,
-      github: req.body.github,
-      gmail: req.body.gmail,
-      photoLink: req.body.photoLink,
-      level: req.body.level,
-      descriptions: req.body.descriptions,
+      ...req.body,
     });
     const savedAbout = await newAbout.save();
     return res.json(savedAbout);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
 exports.updateAbout = async (req, res) => {
   try {
+    const validationError = validateAboutInput(req, res);
+    if (validationError) return validationError;
     const updatedAbout = await About.findByIdAndUpdate(
       req.params.id,
-      {
-        phoneNumber: req.body.phoneNumber,
-        address: req.body.address,
-        instagram: req.body.instagram,
-        telegram: req.body.telegram,
-        linkedIn: req.body.linkedIn,
-        github: req.body.github,
-        gmail: req.body.gmail,
-        photoLink: req.body.photoLink,
-        level: req.body.level,
-        descriptions: req.body.descriptions,
-      },
+      { ...req.body },
       { new: true }
     );
     if (!updatedAbout) {
@@ -65,7 +87,7 @@ exports.updateAbout = async (req, res) => {
     }
     return res.json(updatedAbout);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
@@ -77,6 +99,6 @@ exports.deleteAbout = async (req, res) => {
     }
     return res.json({ message: "About deleted successfully" });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };

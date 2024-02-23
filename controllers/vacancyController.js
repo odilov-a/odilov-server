@@ -1,9 +1,12 @@
 const Vacancy = require("../models/Vacancy");
+const handleServerError = (res, error) => {
+  console.error(error);
+  return res.status(500).json({ message: "Internal server error" });
+};
 
 exports.getAllVacancies = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; 
-    const limit = parseInt(req.query.limit) || 10;
+    const { page = 1, limit = 10 } = req.query;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     const totalVacancies = await Vacancy.countDocuments();
@@ -11,12 +14,12 @@ exports.getAllVacancies = async (req, res) => {
     const vacancies = await Vacancy.find().skip(startIndex).limit(limit);
     const paginationInfo = {
       currentPage: page,
-      totalPages: totalPages,
-      totalVacancies: totalVacancies,
+      totalPages,
+      totalVacancies,
     };
     return res.json({ vacancies, paginationInfo });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
@@ -28,33 +31,39 @@ exports.getVacancyById = async (req, res) => {
     }
     return res.json(vacancy);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
+};
+
+const validateVacancyInput = (req, res) => {
+  const { title, description, price } = req.body;
+  if (!title || !description || !price) {
+    return res.status(400).json({ message: "Title, description, and price are required fields" });
+  }
+  return null;
 };
 
 exports.createVacancy = async (req, res) => {
   try {
+    const validationError = validateVacancyInput(req, res);
+    if (validationError) return validationError;
     const newVacancy = new Vacancy({
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
+      ...req.body,
     });
     const savedVacancy = await newVacancy.save();
     return res.json(savedVacancy);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
 exports.updateVacancy = async (req, res) => {
   try {
+    const validationError = validateVacancyInput(req, res);
+    if (validationError) return validationError;
     const updatedVacancy = await Vacancy.findByIdAndUpdate(
       req.params.id,
-      {
-        title: req.body.title,
-        description: req.body.description,
-        price: req.body.price,
-      },
+      { ...req.body },
       { new: true }
     );
     if (!updatedVacancy) {
@@ -62,7 +71,7 @@ exports.updateVacancy = async (req, res) => {
     }
     return res.json(updatedVacancy);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
@@ -74,6 +83,6 @@ exports.deleteVacancy = async (req, res) => {
     }
     return res.json({ message: "Vacancy deleted successfully" });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };

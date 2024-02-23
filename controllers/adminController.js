@@ -1,11 +1,15 @@
 const Admin = require("../models/Admin");
+const handleServerError = (res, error) => {
+  console.error(error);
+  return res.status(500).json({ message: "Internal server error" });
+};
 
 exports.getAllAdmins = async (req, res) => {
   try {
     const admins = await Admin.find();
     return res.json(admins);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
@@ -17,31 +21,39 @@ exports.getAdminById = async (req, res) => {
     }
     return res.json(admin);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
+};
+
+const validateAdminInput = (req, res) => {
+  const { username, password } = req.body;
+  if (!(username && password)) {
+    return res.status(400).json({ message: "Both username and password are required fields" });
+  }
+  return null;
 };
 
 exports.createAdmin = async (req, res) => {
   try {
+    const validationError = validateAdminInput(req, res);
+    if (validationError) return validationError;
     const newAdmin = new Admin({
-      username: req.body.username,
-      password: req.body.password,
+      ...req.body,
     });
     const savedAdmin = await newAdmin.save();
     return res.json(savedAdmin);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
 exports.updateAdmin = async (req, res) => {
   try {
+    const validationError = validateAdminInput(req, res);
+    if (validationError) return validationError;
     const updatedAdmin = await Admin.findByIdAndUpdate(
       req.params.id,
-      {
-        username: req.body.username,
-        password: req.body.password,
-      },
+      { ...req.body },
       { new: true }
     );
     if (!updatedAdmin) {
@@ -49,7 +61,7 @@ exports.updateAdmin = async (req, res) => {
     }
     return res.json(updatedAdmin);
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
 
@@ -61,6 +73,6 @@ exports.deleteAdmin = async (req, res) => {
     }
     return res.json({ message: "Admin deleted successfully" });
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error" });
+    return handleServerError(res, error);
   }
 };
