@@ -27,7 +27,7 @@ exports.getAboutById = async (req, res) => {
 
 const validateAboutInput = (req, res) => {
   const { phoneNumber, address, instagram , telegram, linkedIn, github, gmail, photoLink, level, descriptions } = req.body;
-  if (!(phoneNumber && address && instagram && telegram && linkedIn && github && gmail && photoLink && lavel &&descriptions)) {
+  if (!(phoneNumber && address && instagram && telegram && linkedIn && github && gmail && photoLink && level &&descriptions)) {
     return res.status(400).json({ message: "All inputs are required fields" });
   }
   return null;
