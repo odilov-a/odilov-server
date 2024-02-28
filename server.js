@@ -28,7 +28,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   session({
-    secret: "nrub87g84bgfy4g483gfy4",
+    secret: "n1r2u3b87g84bgfy4g483gfy4",
     resave: false,
     saveUninitialized: true,
   })
