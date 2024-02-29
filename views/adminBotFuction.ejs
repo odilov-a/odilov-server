@@ -25,7 +25,7 @@
     <main style="margin-top: 20px">
       <form action="/functions/create" method="post" class="row g-3" enctype="multipart/form-data">
         <div class="col-md-6">
-          <label for="newBookTitle" class="form-label" style="font-weight: bold">Book's title:</label>
+          <label for="newBookTitle" class="form-label" style="font-weight: bold" id="required">Book's title:</label>
           <select class="form-select" id="newBookTitle" name="newBookTitle" required>
             <% if (books && books.length) { %>
               <% books.forEach(book=> { %>
@@ -108,7 +108,7 @@
             <form action="/functions/update/<%= bookFunction._id %>" method="post" class="row g-3" enctype="multipart/form-data"> 
               <div class="col-md-6">
               <label for="updatedBookTitle" class="form-label" style="font-weight: bold">Update book's title:</label>
-                <select class="form-select" id="updatedBookTitle" name="updatedBookTitle" required>
+                <select class="form-select" id="updatedBookTitle" name="updatedBookTitle">
                   <% if (books && books.length) { %>
                     <% books.forEach(book => { %>
                       <option value="<%= book.bookTitle %>">
@@ -121,12 +121,12 @@
                 </select>
               </div>
               <div class="col-md-6">
-                <label for="updatedBookChapter" class="form-label" style="font-weight: bold" id="required">Update book's chapter number:</label>
-                <input type="text" class="form-control" id="updatedBookChapter" name="updatedBookChapter" placeholder="Update book chapter number" value="<%= bookFunction.bookChapter %>" required />
+                <label for="updatedBookChapter" class="form-label" style="font-weight: bold">Update book's chapter number:</label>
+                <input type="text" class="form-control" id="updatedBookChapter" name="updatedBookChapter" placeholder="Update book chapter number" value="<%= bookFunction.bookChapter %>"/>
               </div>
               <div class="mb-3">
-                <label for="updateBookAudio" class="form-label" style="font-weight: bold" id="required">Upload Book's Audio:</label>
-                <input type="file" class="form-control" id="updateBookAudio" name="updateBookAudio" value="<%= bookFunction.bookAudio %>" required />
+                <label for="updateBookAudio" class="form-label" style="font-weight: bold">Upload Book's Audio:</label>
+                <input type="file" class="form-control" id="updateBookAudio" name="updateBookAudio" value="<%= bookFunction.bookAudio %>" />
               </div>
               </div>
               <div class="modal-footer">
